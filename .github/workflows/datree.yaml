@@ -1,0 +1,27 @@
+on:
+  pull_request:
+    branches: [main]
+    paths: ["charts/**"]
+  push:
+    branches: [main]
+    paths: ["charts/**"]
+    
+env:
+  DATREE_TOKEN: ${{ secrets.DATREE_TOKEN }} 
+
+jobs:
+  datree:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Update dependencies
+        run: find charts/ ! -path charts/ -maxdepth 1 -type d -exec helm dependency update {} \;
+      - name: Run Datree Policy Check
+        uses: datreeio/action-datree@main
+        with:
+          path: 'charts'
+          isHelmChart: true
+          cliArguments: '--only-k8s-files --policy-config .github/config/datree.yaml'
