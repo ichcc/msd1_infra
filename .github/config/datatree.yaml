@@ -1,0 +1,32 @@
+apiVersion: v1
+customRules: null
+policies:
+  - name: helm_charts
+    isDefault: true
+    rules:
+      - identifier: INGRESS_INCORRECT_HOST_VALUE_PERMISSIVE
+        messageOnFailure: Incorrect value for key `host` - specify host instead of using a wildcard character ("*")
+      - identifier: SERVICE_INCORRECT_TYPE_VALUE_NODEPORT
+        messageOnFailure: Incorrect value for key `type` - `NodePort` will open a port on all nodes where it can be reached by the network external to the cluster
+      - identifier: CRONJOB_INVALID_SCHEDULE_VALUE
+        messageOnFailure: 'Incorrect value for key `schedule` - the (cron) schedule expressions is not valid and, therefore, will not work as expected'
+      - identifier: WORKLOAD_INVALID_LABELS_VALUE
+        messageOnFailure: Incorrect value for key(s) under `labels` - the vales syntax is not valid so the Kubernetes engine will not accept it
+      - identifier: WORKLOAD_INCORRECT_RESTARTPOLICY_VALUE_ALWAYS
+        messageOnFailure: Incorrect value for key `restartPolicy` - any other value than `Always` is not supported by this resource
+      - identifier: HPA_MISSING_MINREPLICAS_KEY
+        messageOnFailure: Missing property object `minReplicas` - the value should be within the accepted boundaries recommended by the organization
+      - identifier: CRONJOB_MISSING_STARTINGDEADLINESECOND_KEY
+        messageOnFailure: Missing property object `startingDeadlineSeconds` - set a time limit to the cron execution to allow killing it if exceeded
+      - identifier: K8S_DEPRECATED_APIVERSION_1.16
+        messageOnFailure: Incorrect value for key `apiVersion` - the version you are trying to use is not supported by the Kubernetes cluster version (>=1.16)
+      - identifier: K8S_DEPRECATED_APIVERSION_1.17
+        messageOnFailure: Incorrect value for key `apiVersion` - the version you are trying to use is not supported by the Kubernetes cluster version (>=1.17)
+      - identifier: CONTAINERS_INCORRECT_PRIVILEGED_VALUE_TRUE
+        messageOnFailure: Incorrect value for key `privileged` - this mode will allow the container the same access as processes running on the host
+      - identifier: CONTAINERS_MISSING_IMAGE_VALUE_DIGEST
+        messageOnFailure: 'Incorrect value for key `image` - add a digest tag (starts with `@sha256:`) to represent an immutable version of the image'
+      - identifier: CRONJOB_MISSING_CONCURRENCYPOLICY_KEY
+        messageOnFailure: Missing property object `concurrencyPolicy` - the behavior will be more deterministic if jobs won't run concurrently
+      - identifier: RESOURCE_MISSING_NAME
+        messageOnFailure: Missing key `name` or `generateName` - one of them must be set to apply resource to a cluster
