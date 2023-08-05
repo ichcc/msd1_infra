@@ -2,4 +2,4 @@
 apiVersion: v2
 name: hello-world
 description: A Helm chart for Kubernetes
-type: applicationversion: sha-0b700ef
+type: applicationversion: sha-0e7fbbc
